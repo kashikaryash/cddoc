@@ -17,7 +17,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
 import Logo from '../../../../public/cypresslogo.svg';
 import Loader from '@/components/global/Loader';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -27,15 +26,9 @@ import { actionSignUpUser } from '@/lib/server-actions/auth-actions';
 
 const SignUpFormSchema = z
   .object({
-    email: z.string().describe('Email').email({ message: 'Invalid Email' }),
-    password: z
-      .string()
-      .describe('Password')
-      .min(6, 'Password must be minimum 6 characters'),
-    confirmPassword: z
-      .string()
-      .describe('Confirm Password')
-      .min(6, 'Password must be minimum 6 characters'),
+    email: z.string().email({ message: 'Invalid Email' }),
+    password: z.string().min(6, 'Password must be minimum 6 characters'),
+    confirmPassword: z.string().min(6, 'Password must be minimum 6 characters'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match.",
